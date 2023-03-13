@@ -3,15 +3,17 @@ from data_create import name_data, surname_data, phone_data, adress_data
 
 file_name = 'data.txt'
 
+
 def print_data():
     if os.path.exists(file_name):
         print('Вывод данных из файла')
         with open(file_name, 'r', encoding='utf-8') as file:
-            list_data = file.readlines() # возвращает все строки
+            list_data = file.readlines()  # возвращает все строки
             for element in list_data:
                 print(element)
     else:
         print("Файл не существует")
+
 
 def input_data():
     print('Введите данные для записи в файл')
@@ -22,70 +24,62 @@ def input_data():
     with open(file_name, 'a', encoding='utf-8') as file:
         file.write(f"{name}; {surname}; {phone}; {adress}\n")
 
+
 def filter_data():
     filter_string = input()
     with open(file_name, 'r', encoding='utf-8') as file:
         list_data = file.readlines()
-        # print(list_data)
         if ";" in filter_string:
             list_filter = filter_string.split(";")
         else:
             list_filter = [filter_string]
-        print(list_filter)
-    #     is_found = False
-    #     count_2 = 0
-        for element in list_data:
-            # print(element)
+        match = 0
+        # if(accurate_filter(list_data, list_filter)) > 1:
+        #     print("hdjghdjghfdh")
+        #     accurate_filter(list_data, list_filter)
+        for j in range(len(list_data)):
             count = 0
             for i in list_filter:
-                
-                if i in element:
-                    # print(i)
+                if i in list_data[j]:
                     count += 1
-            # print(count)
             if count == len(list_filter):
-                print(element)
-                
-    #         temp_record = element.split(";")
-    #         # print(temp_record)
-    #         count = 0
-    #         for record in temp_record:
-    #             for element_filter in list_filter:
-    #                 if element_filter.lower() in record.lower(): #and len(element_filter.lower()) == len(record.lower()):
-    #                     count += 1
-    #                     # print(count, record)
-    #         if count >= len(list_filter):
-    #             print(element)
-    #             count_2 += 1
-    #             is_found = True
-    #         # print(count_2)
-    # if not is_found:
-    #     print("Записей не найдено")
-    # else:
-    #     if count_2 > 1: 
-    #         lit = "о"
-    #         lit_2 = "а"
-    #     else:
-    #         lit = ""
-    #         lit_2 = ""
-    #     print(f'Найден{lit} {count_2} элемент{lit_2}')
-    # if count_2 > 1:
-    #     print('Найдено несколько элементов, уточните параметры поиска через ";"')
-    #     filter_data()
-    # return element
-    
-                   
-def change_data ():
+                print(f"[{j}] {list_data[j]}")
+                match += 1
+        if match == 0:
+            print("Записей не найдено") 
+        elif match > 1:
+            print(f"Найдено {match} записи")        
+
+# def accurate_filter(list_data, list_filter):
+#     match = 0
+#     for j in range(len(list_data)):
+#             count = 0
+#             for i in list_filter:
+#                 if i in list_data[j]:
+#                     count += 1
+#             if count == len(list_filter):
+#                 print(f"[{j}] {list_data[j]}")
+#                 match += 1
+#     if match == 0:
+#         print("Записей не найдено") 
+#     elif match > 1:
+#         print(f"Найдено {match} записи") 
+#     return match
+
+def change_data():
     delete_data()
     input_data()
 
 
 def delete_data():
-    print(filter_data())
-    # filter_string = input()
-    # with open(file_name, 'r', encoding='utf-8') as file:
-    #     list_data = file.readlines()
-    #     with open(file_name, 'w', encoding='utf-8') as fw:
-    #         for line in list_data:
-    #             if line.find(filter_string) == -1:
-    #                 fw.write(line)
+    filter_data()
+    print("Для удаления элемента введите его номер (указан в квадратных скобках)")
+    delete_elem = int(input())
+
+    with open(file_name, 'r', encoding='utf-8') as file:
+        list_data = file.readlines()
+        with open(file_name, 'w', encoding='utf-8') as fw:
+            for j in range(len(list_data)):
+                if j != delete_elem:
+                    fw.write(list_data[j])
+    print("Элемент удален!")

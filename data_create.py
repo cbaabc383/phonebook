@@ -11,5 +11,5 @@ def phone_data():
     return phone
 
 def adress_data():
-    adress = input('Введите адресс: ')
+    adress = input('Введите адрес: ')
     return adress
